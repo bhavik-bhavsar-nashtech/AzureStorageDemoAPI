@@ -1,7 +1,9 @@
 
 using Azure.Data.Tables;
+using Azure.Storage.Blobs;
 using Azure.Storage.Files.Shares;
 using Azure.Storage.Queues;
+using AzureStorageDemoAPI.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,10 +14,13 @@ var storageConnectionString =
     ?? Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING")
     ?? throw new InvalidOperationException("Azure Storage connection string not configured. Set ConnectionStrings:AzureStorage or AZURE_STORAGE_CONNECTION_STRING.");
 
+
 // Register Azure Storage clients in DI
 builder.Services.AddSingleton<TableServiceClient>(_ => new TableServiceClient(storageConnectionString));
 builder.Services.AddSingleton<QueueServiceClient>(_ => new QueueServiceClient(storageConnectionString));
 builder.Services.AddSingleton<ShareServiceClient>(_ => new ShareServiceClient(storageConnectionString));
+builder.Services.AddSingleton<BlobServiceClient>(_ => new BlobServiceClient(storageConnectionString));
+builder.Services.AddSingleton(new StorageConfiguration(storageConnectionString));
 
 // Add services to the container.
 builder.Services.AddControllers();

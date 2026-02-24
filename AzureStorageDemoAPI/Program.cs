@@ -21,6 +21,7 @@ builder.Services.AddSingleton<QueueServiceClient>(_ => new QueueServiceClient(st
 builder.Services.AddSingleton<ShareServiceClient>(_ => new ShareServiceClient(storageConnectionString));
 builder.Services.AddSingleton<BlobServiceClient>(_ => new BlobServiceClient(storageConnectionString));
 builder.Services.AddSingleton(new StorageConfiguration(storageConnectionString));
+builder.Services.AddApplicationInsightsTelemetry();
 
 // Add services to the container.
 builder.Services.AddControllers();
